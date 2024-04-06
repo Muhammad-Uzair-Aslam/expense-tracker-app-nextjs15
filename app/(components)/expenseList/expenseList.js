@@ -7,7 +7,7 @@ const ExpenseList = () => {
     const [expenses, setExpenses] = useState([]);
     const [isOpen, setIsOpen] = useState(false)
     const [total,setTotal]=useState(0)
-    const [expens,setExpens]=useState({
+    const [expense,setExpense]=useState({
         id:'',
         amount:'',
         category:'',
@@ -18,18 +18,28 @@ const ExpenseList = () => {
     )
     const onAddExpense = (expense) => {
         setExpenses([...expenses, expense])
-                
+        setTotal(total+ parseFloat(expense.amount))   
+    }
+    const onUpdateExpense=(expenseRecord)=>{
+        setExpenses(expenses.map((e)=>(e.id===expenseRecord.id? expenseRecord:e)))
+        setTotal(total-parseFloat(expense.amount) + parseFloat(expenseRecord.amount))
+        setExpense({
+            id:'',
+            amount:0,
+            category:'',
+            note:'',
+            date:''
+        })
     }
     const onClose = () => {
         setIsOpen(false)
     }
     const onDeleteHandler=(expense)=>{
         setExpenses(expenses.filter((e)=>e.id!=expense.id))
-        setTotal(total-expense.amount)
+        setTotal(total-parseFloat(expense.amount))
     }
     const onEditHandler=(expense)=>{
-        setExpens(expense)
-        
+        setExpense(expense)    
         setIsOpen(true)
     }
     return (
@@ -41,7 +51,7 @@ const ExpenseList = () => {
             >
                 Add Expense
             </button>
-            <ExpenseModal expense={expens} isOpen={isOpen} onClose={onClose} onSave={onAddExpense} />
+            <ExpenseModal expense={expense} isOpen={isOpen} onClose={onClose} onSave={onAddExpense} onUpdateExpense={onUpdateExpense} />
 
             {expenses.length > 0 ? (
                 <div className="overflow-x-auto">
@@ -81,7 +91,7 @@ const ExpenseList = () => {
                 <p className="text-gray-600 mt-4">No expenses recorded.</p>
             )}
             {total>0 && <div className='flex justify-end'>
-                <p className='text-2xl font-semibold mb-4'>Total: PKR{total.toFixed(2)}</p>
+                <p className='text-2xl font-semibold mb-4'>Total: PKR{total}</p>
                 </div>}
         </div>
     );

@@ -3,9 +3,9 @@
 "use client"
 import React, { useState } from 'react';
 
-const ExpenseModal = ({ expense, isOpen, onClose, onSave }) => {
+const ExpenseModal = ({ expense, isOpen, onClose, onSave ,onUpdateExpense }) => {
   const [formData, setFormData] = useState({
-    amount: '',
+    amount: 0,
     category: '',
     note: '',
     date: '',
@@ -21,11 +21,18 @@ const ExpenseModal = ({ expense, isOpen, onClose, onSave }) => {
     // Adding the auto-generated ID here using Date.now()
     const newExpense = { ...formData, id: Date.now().toString() };
     onSave(newExpense);    
-    setFormData({ amount: '', category: '', note: '', date: '' });
+    setFormData({ amount: 0, category: '', note: '', date: '' });
 
     onClose();
 
   };
+  const handleUpdateExpense=()=>{
+    const updateExpense = { ...formData, id: expense.id, amount:formData.amount ||expense.amount, category: formData.category||expense.category,note:formData.note||expense.note,date:formData.date||expense.date};
+    onUpdateExpense(updateExpense);    
+    setFormData({ amount: 0, category: '', note: '', date: '' });
+
+    onClose();
+  }
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -37,7 +44,7 @@ const ExpenseModal = ({ expense, isOpen, onClose, onSave }) => {
           &times;
         </button>
         <h3 className="text-2xl font-semibold text-gray-700 mb-4">Add Expense</h3>
-        <form onSubmit={handleSubmit}>
+        <form>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-600">Amount</label>
             <input
@@ -88,12 +95,19 @@ const ExpenseModal = ({ expense, isOpen, onClose, onSave }) => {
               required
             />
           </div>
+          {expense.id!==''?<button
+            onClick={handleUpdateExpense}
+            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+          >
+            update Expense
+          </button>:
           <button
-            type="submit"
+            onClick={handleSubmit}
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
           >
             Save Expense
           </button>
+}
         </form>
       </div>
     </div>
