@@ -1,5 +1,8 @@
 "use client"
 import React from 'react';
+import { MdAddChart } from "react-icons/md";
+import { MdDeleteForever } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import ExpenseModal from '../expenseModal/expenseModal';
 import { useState } from 'react';
 
@@ -77,9 +80,9 @@ const ExpenseList = () => {
                                     <td className="py-3 px-4">{expense.category}</td>
                                     <td className="py-3 px-4">{expense.note}</td>
                                     <td className="py-3 px-4">{new Date(expense.date).toLocaleDateString()}</td>
-                                    <td className="py-3 px-4">
-                                        <button onClick={()=>onEditHandler(expense)} className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'>Edit</button>
-                                        <button className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600' onClick={()=>onDeleteHandler(expense)}>Delete</button>
+                                    <td className="py-3 px-4 ">
+                                        <button onClick={()=>onEditHandler(expense)} className='inline-flex bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 '><MdEdit className='mt-1 m-1'/>Edit</button>
+                                        <button className='bg-red-500 text-white px-4 py-2 inline-flex rounded hover:bg-red-600 ' onClick={()=>onDeleteHandler(expense)}><MdDeleteForever className='mt-1 mr-1'/>Delete</button>
                                     </td>
                                 </tr>
                             ))}

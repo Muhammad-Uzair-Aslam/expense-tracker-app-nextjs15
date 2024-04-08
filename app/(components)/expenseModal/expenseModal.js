@@ -1,6 +1,8 @@
 
 
 "use client"
+import { AiOutlineEdit } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import React, { useState } from 'react';
 
 const ExpenseModal = ({ expense, isOpen, onClose, onSave ,onUpdateExpense }) => {
